@@ -1,0 +1,43 @@
+version: '3.6'
+services:
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.3.0
+        container_name: elasticsearch-fulltext
+        environment:
+            - cluster.name=fulltextsearch-cluster
+            - node.name=elastic-n1
+            - "ES_JAVA_OPTS=-Xms750m -Xmx750m"
+            - bootstrap.memory_lock=true
+            - cluster.initial_master_nodes=elastic-n1
+        cap_add:
+            - ALL
+        ulimits:
+            nproc: 65535
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - esdata1:/usr/share/elasticsearch/data
+        privileged: true
+        ports:
+            - 9200:9200
+            - 9300:9300
+    kibana:
+        image: docker.elastic.co/kibana/kibana-oss:7.3.0
+        container_name: kibana-fulltext
+        environment:
+            ELASTICSEARCH_URL: http://elasticsearch:9200/
+            SERVER_NAME: localhost
+        ports:
+            - 5601:5601
+        cap_add:
+            - ALL
+    nutch:
+        build: ./nutch/
+        container_name: nutch-fulltext
+        volumes:
+            - ./configuration:/home/nutch
+        ports:
+            - 9080:9080
+volumes:
+    esdata1:

@@ -1,0 +1,14 @@
+{
+  "name": "crawler_api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.13.3",
+    "express-handlebars": "^3.0.0",
+    "child_process": "^1.0.2"
+  }
+}

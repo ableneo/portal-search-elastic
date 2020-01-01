@@ -1,0 +1,105 @@
+swagger: "2.0"
+info:
+  description: "This API is used to remotely access Apache Nutch crawler operations"
+  version: "1.0.0"
+  title: "Indexer API"
+  contact:
+    email: "marek.hornak@ableneo.com"
+  license:
+    name: "MIT License"
+    url: "https://github.com/ableneo/portal-search-elastic/blob/master/LICENSE"
+host: "localhost:9080"
+basePath: "/crawl"
+tags:
+- name: "crawl"
+  description: "Crawler operations"
+  externalDocs:
+    description: "Find out more"
+    url: "https://github.com/ableneo/portal-search-elastic/"
+schemes:
+- "http"
+paths:
+  /start:
+    post:
+      tags:
+      - "crawl"
+      summary: "Start crawling process"
+      operationId: "startCrawl"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Crawler input object"
+        required: true
+        schema:
+          $ref: "#/definitions/Crawl"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ApiResponse"
+        405:
+          description: "Invalid input"
+  /stop:
+    post:
+      tags:
+      - "crawl"
+      summary: "Stop crawling process"
+      operationId: "stopCrawl"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Pet object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/ApiResponse"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ApiResponse"
+  /ps:
+    get:
+      tags:
+      - "crawl"
+      summary: "List running processes"
+      operationId: "getProcesses"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ApiResponse"
+
+definitions:
+  ApiResponse:
+    type: "object"
+    properties:
+      result:
+        type: "string"
+  Crawl:
+    type: "object"
+    properties:
+      depth:
+        type: "integer"
+      url:
+        type: "string"
+      index:
+        type: "string"
+externalDocs:
+  description: "More info on github project page"
+  url: "https://github.com/ableneo/portal-search-elastic"
